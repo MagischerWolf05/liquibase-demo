@@ -1,0 +1,119 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Johanna Doe
+      changes:
+        - createTable:
+            tableName: article
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(255)
+  - changeSet:
+      id: 2
+      author: gian wilhelm
+      changes:
+        - modifyDataType:
+            tableName: article
+            columnName: text
+            newDataType: text or varchar(10000)
+  - changeSet:
+      id: 3
+      author: gian wilhelm
+      changes:
+        - renameTable:
+            oldTableName: article
+            newTableName: articles
+        - modifyDataType:
+            tableName: articles
+            columnName: title
+            newDataType: text
+  - changeSet:
+      id: 4
+      author: gian wilhelm
+      changes:
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: createdTs
+                  type: timestamp
+                  constraints:
+                    defaultValue: CURRENT_TIMESTAMP
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    defaultValue: 0
+  - changeSet:
+      id: 5
+      author: gian wilhelm
+      changes:
+        - createTable:
+            tableName: comment
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: content
+                  type: text
+              - column:
+                  name: article_id
+                  type: uuid
+                  constraints:
+                    foreignKey:
+                      references: articles(id)
+  - changeSet:
+    id: 6
+    author: gian wilhelm
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: id
+                value: 8bc73872-9e88-11ed-a8fc-0242ac120002
+            - column:
+                name: title
+                value: test title
+            - column:
+                name: text
+                value: test text
+            - column:
+                name: createdTs
+                value: 2023-01-27 22:15:56.000000
+            - column:
+                name: version
+                value: 1
+          schemaName: public
+          tableName: articles
+  - changeSet:
+    id: 7
+    author: gian wilhelm
+    changes:
+      - insert:
+          columns:
+            - column:
+                  name: id
+                  value: 1
+            - column:
+                name: content
+                value: test content
+            - column:
+                name: article_id
+                value: 8bc73872-9e88-11ed-a8fc-0242ac120002
+
+          schemaName: public
+          tableName: comments
